@@ -1,62 +1,89 @@
 <template>
-  <span>
-    <span class="order-status-heading">{{ panelHeading }}</span>
-    <span v-for="(order, index) in orders" :key="index">
-      <order-view
-        :order="order"
-        :index="index"
-        :order-badge-color="badgeColors"
-        @delete-order="deleteOrder"
-      />
-    </span>
-  </span>
+  <card>
+    <template #header>
+      <div class="card-header">
+        <button @click="showDropDown = !showDropDown">
+          <span class="fa fa-ellipsis-h" aria-hidden="true" />
+        </button>
+        <div v-if="showDropDown" class="drop-down">
+          <span @click="deleteOrder">Delete</span>
+        </div>
+      </div>
+    </template>
+    <template #body>
+      <div class="card-body">
+        <div class="img-container">
+          <img alt="Vue logo" :src="thumbnail(order.img)" />
+        </div>
+        <div class="order-info-container">
+          <badge
+            :text="order.status"
+            :text-color="orderBadgeColor.color"
+            :background-color="orderBadgeColor.bgColor"
+          />
+          <div class="order-time">
+            <i class="fa fa-clock-o"></i><span>{{ order.time_remaining }}</span>
+          </div>
+          <div class="order-budget">
+            <span class="time-budget">{{ order.total_hours }} hrs</span>
+            <span>|</span>
+            <span class="price-budget">${{ order.price }}</span>
+          </div>
+        </div>
+      </div>
+    </template>
+    <template #footer>
+      <div class="card-footer">
+        <div class="footer-area">
+          <span class="view-order">View Order</span>
+          <div class="profile-comment">
+            <i class="fa fa-comment"></i>
+            <img alt="Vue logo" :src="thumbnail('placeholder.jpeg')" />
+          </div>
+        </div>
+      </div>
+    </template>
+  </card>
 </template>
 
 <script lang="ts">
-import { Order } from "@/Interfaces/Order.interface";
-import OrderView from "./Order.vue";
-import { getOrdersByType } from "../../../services/OrderService";
-import { OrderBadgeColor } from "../../../services/OrderService";
-import { OrderBadge } from "@/Interfaces/OrderBadge.interface";
+import Badge from "../../ui/Badge.vue";
+import Card from "../../ui/Card.vue";
 
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Orders",
-  components: { OrderView },
+  name: "OrderView",
+  components: { Badge, Card },
   props: {
-    orderType: {
-      type: String,
+    order: {
+      type: Object,
       required: true,
     },
-    panelHeading: {
-      type: String,
+    index: {
+      type: Number,
+      required: true,
+    },
+    orderBadgeColor: {
+      type: Object,
       required: true,
     },
   },
   data() {
     return {
-      orders: new Array<Order>(),
-      badgeColors: {} as OrderBadge,
+      showDropDown: false,
     };
   },
+
+  computed: {},
+
   methods: {
-    fetchOrders(): void {
-      this.orders = getOrdersByType(this.orderType);
-    },
-    orderBadgeColor(): void {
-      this.badgeColors = OrderBadgeColor(this.orderType);
-    },
     thumbnail(img: string): string {
       return require("@/assets/" + img);
     },
-    deleteOrder(index: number) {
-      this.orders = this.orders.filter((_, i) => i !== index);
+    deleteOrder() {
+      this.$emit("delete-order", this.index);
     },
-  },
-  created(): void {
-    this.fetchOrders();
-    this.orderBadgeColor();
   },
 });
 </script>
