@@ -49,14 +49,16 @@
 
 <script lang="ts">
 import { Order } from "@/Interfaces/Order.interface";
-import { Options, Vue } from "vue-class-component";
 import Badge from "../../ui/Badge.vue";
 import Card from "../../ui/Card.vue";
 import { getOrdersByType } from "../../../services/OrderService";
 import { OrderBadgeColor } from "../../../services/OrderService";
 import { OrderBadge } from "@/Interfaces/OrderBadge.interface";
 
-@Options({
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "Orders",
   components: { Badge, Card },
   props: {
     orderType: {
@@ -68,22 +70,22 @@ import { OrderBadge } from "@/Interfaces/OrderBadge.interface";
       required: true,
     },
   },
-})
-export default class Orders extends Vue {
-  orderType!: string;
+  computed: {
+    fetchOrders(): Order[] {
+      return getOrdersByType(this.orderType);
+    },
 
-  get fetchOrders(): Order[] {
-    return getOrdersByType(this.orderType);
-  }
+    orderBadgeColor(): OrderBadge {
+      return OrderBadgeColor(this.orderType);
+    },
+  },
 
-  get orderBadgeColor(): OrderBadge {
-    return OrderBadgeColor(this.orderType);
-  }
-
-  thumbnail(img: string): string {
-    return require("@/assets/" + img);
-  }
-}
+  methods: {
+    thumbnail(img: string): string {
+      return require("@/assets/" + img);
+    },
+  },
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

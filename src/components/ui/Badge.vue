@@ -3,9 +3,10 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent } from "vue";
 
-@Options({
+export default defineComponent({
+  name: "Badge",
   props: {
     text: {
       type: String,
@@ -20,20 +21,16 @@ import { Options, Vue } from "vue-class-component";
       required: true,
     },
   },
-})
-export default class Badge extends Vue {
-  type!: string;
-  textColor!: string;
-  backgroundColor!: string;
-
-  get cssVars(): unknown {
-    // there is issue currently with typescript object return type
-    return {
-      "--bg-color": this.backgroundColor,
-      "--text-color": this.textColor,
-    };
-  }
-}
+  computed: {
+    cssVars(): unknown {
+      // there is issue currently with typescript object return type
+      return {
+        "--bg-color": this.backgroundColor,
+        "--text-color": this.textColor,
+      };
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>

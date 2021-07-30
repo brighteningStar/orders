@@ -24,13 +24,16 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
 import Orders from "./views/orders/Orders.vue";
+import { defineComponent } from "vue";
 
-@Options({
+export default defineComponent({
+  name: "HelloWorld",
   components: { Orders },
-})
-export default class HelloWorld extends Vue {}
+  props: {
+    msg: String,
+  },
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

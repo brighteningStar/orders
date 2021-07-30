@@ -7,12 +7,12 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent } from "vue";
 
-@Options({
+export default defineComponent({
+  name: "Cards",
   props: {},
-})
-export default class Card extends Vue {}
+});
 </script>
 
 <style lang="scss" scoped>
