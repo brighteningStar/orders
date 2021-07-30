@@ -209,5 +209,3 @@ export default defineComponent({
   }
 }
 </style>
-
-function Prop() { throw new Error("Function not implemented."); }
