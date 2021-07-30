@@ -1,23 +1,12 @@
 <template>
   <div class="order-parent">
-    <div class="order-panel">
+    <div
+      v-for="(orderText, orderType) in orderPanels"
+      :key="orderType"
+      class="order-panel"
+    >
       <div class="order-cell">
-        <orders :order-type="'new_orders'" :panel-heading="'New Orders'" />
-      </div>
-    </div>
-    <div class="order-panel">
-      <div class="order-cell">
-        <orders :order-type="'in_progress'" :panel-heading="'In Progress'" />
-      </div>
-    </div>
-    <div class="order-panel">
-      <div class="order-cell">
-        <orders :order-type="'waiting'" :panel-heading="'Waiting For Buyers'" />
-      </div>
-    </div>
-    <div class="order-panel">
-      <div class="order-cell">
-        <orders :order-type="'completed'" :panel-heading="'Completed'" />
+        <orders :order-type="orderType" :panel-heading="orderText" />
       </div>
     </div>
   </div>
@@ -30,8 +19,16 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "HelloWorld",
   components: { Orders },
-  props: {
-    msg: String,
+  props: {},
+  data() {
+    return {
+      orderPanels: {
+        new_orders: "New Orders",
+        in_progress: "In Progress",
+        waiting: "Waiting For Buyers",
+        completed: "Completed",
+      },
+    };
   },
 });
 </script>
