@@ -36,6 +36,7 @@
     </template>
     <template #footer>
       <div class="card-footer">
+        <hr />
         <div class="footer-area">
           <span class="view-order">View Order</span>
           <div class="profile-comment">
@@ -200,7 +201,9 @@ export default defineComponent({
 }
 
 .card-footer {
-  border-top: 1px solid #a5a5a9;
+  & hr {
+    border: 0.5px solid #a5a5a9;
+  }
 
   & .footer-area {
     display: flex;
