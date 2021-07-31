@@ -16,11 +16,13 @@
           <img alt="Vue logo" :src="thumbnail(order.img)" />
         </div>
         <div class="order-info-container">
-          <badge
-            :text="order.status"
-            :text-color="orderBadgeColor.color"
-            :background-color="orderBadgeColor.bgColor"
-          />
+          <span>
+            <badge
+              :text="order.status"
+              :text-color="orderBadgeColor.color"
+              :background-color="orderBadgeColor.bgColor"
+            />
+          </span>
           <div class="order-time">
             <i class="fa fa-clock-o"></i><span>{{ order.time_remaining }}</span>
           </div>
@@ -160,14 +162,15 @@ export default defineComponent({
 
   & .order-info-container {
     line-height: 2.3em;
-
-    & .order-badge {
-      margin-right: -25px;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 
     & .order-time {
       color: #a5a5a9;
-      margin-right: -25px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
       & i {
         margin-right: 10px;
       }
